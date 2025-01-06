@@ -4,7 +4,6 @@ on: workflow_dispatch
 
 jobs:
   release:
-    runs-on: [self-hosted]
     name: Build, package and
     steps:
       - uses: actions/checkout@v1
