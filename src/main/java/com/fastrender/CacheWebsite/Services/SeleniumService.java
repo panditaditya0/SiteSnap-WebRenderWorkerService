@@ -21,7 +21,7 @@ public class SeleniumService {
 
     public WebDriver getWebDriver() throws MalformedURLException {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), options);

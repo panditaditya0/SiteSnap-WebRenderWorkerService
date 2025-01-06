@@ -2,7 +2,10 @@ package com.fastrender.CacheWebsite.Services;
 
 import com.fastrender.CacheWebsite.model.CacheDataModel;
 import com.fastrender.CacheWebsite.model.WebsiteData;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 
 @Service
@@ -59,8 +63,9 @@ public class CacheWebsiteService {
         try {
             driver = seleniumService.getWebDriver();
             driver.get(websiteUrl);
-            String pageSource = driver.getPageSource();
-            return pageSource;
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
+            return driver.getPageSource();
         } catch (Exception exception) {
             if (null != driver) {
                 seleniumService.killWebDriver();
