@@ -16,7 +16,11 @@ public class MessageConsumerService {
 
     @RabbitListener(queues = "sitemap-links-queue")
     public void receiveMessage(String message) {
-        WebsiteData data = new ObjectMapper().convertValue(message, WebsiteData.class);
-        cacheWebsiteService.cacheWebsite(data);
+        try{
+            WebsiteData data = new ObjectMapper().readValue(message, WebsiteData.class);
+            cacheWebsiteService.cacheWebsite(data);
+        } catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 }
