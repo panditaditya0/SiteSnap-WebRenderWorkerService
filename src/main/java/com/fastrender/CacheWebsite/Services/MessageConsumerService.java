@@ -1,5 +1,6 @@
 package com.fastrender.CacheWebsite.Services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fastrender.CacheWebsite.model.WebsiteData;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class MessageConsumerService {
     private CacheWebsiteService cacheWebsiteService;
 
     @RabbitListener(queues = "sitemap-links-queue")
-    public void receiveMessage(WebsiteData message) {
-        cacheWebsiteService.cacheWebsite(message);
+    public void receiveMessage(String message) {
+        WebsiteData data = new ObjectMapper().convertValue(message, WebsiteData.class);
+        cacheWebsiteService.cacheWebsite(data);
     }
 }
