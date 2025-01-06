@@ -1,0 +1,7 @@
+com/fastrender/CacheWebsite/Model/WebsiteData.class
+com/fastrender/CacheWebsite/Services/MessageConsumerService.class
+com/fastrender/CacheWebsite/Config/RabbitConfig.class
+com/fastrender/CacheWebsite/Services/CacheWebsiteService.class
+com/fastrender/CacheWebsite/Config/Selenium.class
+com/fastrender/CacheWebsite/CacheWebsiteApplication.class
+com/fastrender/CacheWebsite/Config/RedisConf.class
