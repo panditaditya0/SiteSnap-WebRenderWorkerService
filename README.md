@@ -13,7 +13,7 @@ The primary purpose of this system is to cache websites efficiently and serve th
 3. **Optimized Resource Usage:** By leveraging caching mechanisms, server resources are utilized efficiently, reducing overhead and ensuring scalability.
 
 ---
-![System_Archi](https://github.com/panditaditya0/SiteSnap-WebRenderWorkerService/blob/main/System%20Archi.png)
+![System_Archi](https://github.com/panditaditya0/SiteSnap-WebRenderWorkerService/blob/main/systemArchi.png)
 
 
 
