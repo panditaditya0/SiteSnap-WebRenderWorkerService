@@ -17,9 +17,10 @@ jobs:
           rev=$(git rev-parse --short HEAD)
           echo "rev  ${rev}"
           ls
-          mvn clean package -DskipTests
-          sudo docker build --build-arg GIT_COMMIT=${rev} -t cachewebsite/t:latest -f Dockerfile .
-          sudo docker image tag cachewebsite/t nexus.ppustage.dev/cachewebsite-service:${rev}
           echo ${{secrets.NEXUS_USER_NAME}}
-          sudo docker login -u ${{secrets.NEXUS_USER_NAME}} -p ${{secrets.NEXUS_PASSWORD}} nexus.ppustage.dev
-          sudo docker push nexus.ppustage.dev/cachewebsite-service:${rev}
+          # mvn clean package -DskipTests
+          # sudo docker build --build-arg GIT_COMMIT=${rev} -t cachewebsite/t:latest -f Dockerfile .
+          # sudo docker image tag cachewebsite/t nexus.ppustage.dev/cachewebsite-service:${rev}
+          # echo ${{secrets.NEXUS_USER_NAME}}
+          # sudo docker login -u ${{secrets.NEXUS_USER_NAME}} -p ${{secrets.NEXUS_PASSWORD}} nexus.ppustage.dev
+          # sudo docker push nexus.ppustage.dev/cachewebsite-service:${rev}
