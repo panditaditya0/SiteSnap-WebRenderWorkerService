@@ -60,6 +60,9 @@ public class ChromeDriver implements BrowserDriver{
             JsonArray args = new JsonArray();
             args.add("--headless"); // Add headless argument
             args.add("--disable-gpu"); // Recommended for some environments
+            args.add("--no-sandbox"); // Avoid sandbox issues
+            args.add("--disable-dev-shm-usage"); // Avoid shared memory issues
+            args.add("--remote-debugging-port=9222"); // Debugging port
             chromeOptions.add("args", args);
 
             // Add Chrome options under `goog:chromeOptions`
@@ -71,7 +74,6 @@ public class ChromeDriver implements BrowserDriver{
             post.setEntity(new StringEntity(capabilities.toString()));
             post.setHeader("Content-Type", "application/json");
 
-
             try (CloseableHttpResponse response = client.execute(post)) {
                 String jsonResponse = readResponse(response);
                 System.out.println(url);
@@ -81,7 +83,6 @@ public class ChromeDriver implements BrowserDriver{
                 return this;
             }
         } catch (Exception ex) {
-
             throw new RuntimeException(ex);
         }
     }
