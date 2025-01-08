@@ -15,6 +15,8 @@
 #cd /usr/local/bin
 #./chromedriver --port=9200
 
+set -euo pipefail
+
 cd /usr/local/bin
 /usr/local/bin/chromedriver --port=9200 --whitelisted-ips= --verbose --log-path=/var/log/chromedriver.log --disable-dev-shm-usage --no-sandbox --disable-gpu --headless &
 CHROMEDRIVER_PID=$!
