@@ -20,7 +20,7 @@ cd /usr/local/bin
 CHROMEDRIVER_PID=$!
 
 # Wait for the Node to register
-sleep 200000
+#sleep 200000
 
 # Start the Spring Boot application
 java -jar /app/app.jar
