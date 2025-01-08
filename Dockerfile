@@ -50,12 +50,14 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
     apt-get update && apt-get install -y google-chrome-stable --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Install ChromeDriver
-RUN CHROME_DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
-    wget -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
-    unzip /tmp/chromedriver_linux64.zip -d /usr/local/bin/ && \
-    rm /tmp/chromedriver_linux64.zip && \
-    chmod +x /usr/local/bin/chromedriver
+# Download specific ChromeDriver version
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.264/linux64/chromedriver-linux64.zip -O /tmp/chromedriver.zip && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    rm /tmp/chromedriver.zip
+
+# Set permissions for ChromeDriver
+RUN chmod +x /usr/local/bin/chromedriver && \
+    ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver
 
 # Create directories for the application and logs
 RUN mkdir -p /app /var/log
