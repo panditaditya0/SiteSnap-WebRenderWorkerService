@@ -1,20 +1,5 @@
 #!/bin/bash
 
-# Start Selenium Hub in the background
-#java -jar /app/selenium-server.jar hub &
-
-# Wait for Selenium Hub to start
-#sleep 15
-
-# Start Selenium Node (Chrome) and register it with the Hub
-#java -jar /app/selenium-server.jar node \
-#  --hub http://localhost:4444 \
-#  --detect-drivers true \
-#  --register-cycle 0 &
-
-#cd /usr/local/bin
-#./chromedriver --port=9200
-
 set -euo pipefail
 
 /usr/local/bin/chromedriver \
@@ -29,8 +14,31 @@ set -euo pipefail
 
 CHROMEDRIVER_PID=$!
 
-# Wait for the Node to register
-#sleep 200000
 
 # Start the Spring Boot application
-java -jar /app/app.jar
+java -jar /app/app.jar &
+
+# Capture Spring Boot's PID
+SPRING_BOOT_PID=$!
+
+# Function to handle termination signals
+terminate() {
+  echo "Terminating processes..."
+  kill -TERM "$CHROMEDRIVER_PID" "$SPRING_BOOT_PID"
+  exit 0
+}
+
+# Trap termination signals to gracefully shut down
+trap terminate SIGINT SIGTERM
+
+# Wait for any process to exit
+wait -n
+
+# Capture exit status
+EXIT_STATUS=$?
+
+# Terminate all background processes
+kill -TERM "$CHROMEDRIVER_PID" "$SPRING_BOOT_PID"
+
+# Exit with the status of the first process that exited
+exit $EXIT_STATUS
