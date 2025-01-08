@@ -13,7 +13,7 @@ sleep 15
 #  --register-cycle 0 &
 
 # Wait for the Node to register
-#sleep 15
+sleep 20000
 
 # Start the Spring Boot application
 java -jar /app/app.jar
