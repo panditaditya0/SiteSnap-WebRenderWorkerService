@@ -1,5 +1,6 @@
 package com.fastrender.CacheWebsite.Services.Impl;
 import com.fastrender.CacheWebsite.Services.BrowserDriver;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.client.methods.*;
@@ -56,10 +57,10 @@ public class ChromeDriver implements BrowserDriver{
 
             // Specify Chrome options
             JsonObject chromeOptions = new JsonObject();
-//            JsonArray args = new JsonArray();
-//            args.add("--headless"); // Add headless argument
-//            args.add("--disable-gpu"); // Recommended for some environments
-//            chromeOptions.add("args", args);
+            JsonArray args = new JsonArray();
+            args.add("--headless"); // Add headless argument
+            args.add("--disable-gpu"); // Recommended for some environments
+            chromeOptions.add("args", args);
 
             // Add Chrome options under `goog:chromeOptions`
             alwaysMatch.add("goog:chromeOptions", chromeOptions);
@@ -73,11 +74,14 @@ public class ChromeDriver implements BrowserDriver{
 
             try (CloseableHttpResponse response = client.execute(post)) {
                 String jsonResponse = readResponse(response);
+                System.out.println(url);
+                System.out.println(jsonResponse);
                 JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();
                 this.sessionId = json.getAsJsonObject("value").get("sessionId").getAsString();
                 return this;
             }
         } catch (Exception ex) {
+
             throw new RuntimeException(ex);
         }
     }
