@@ -1,32 +1,21 @@
 package com.fastrender.CacheWebsite.Services;
 
+import com.fastrender.CacheWebsite.Services.Impl.ChromeDriver;
 import com.fastrender.CacheWebsite.model.CacheDataModel;
 import com.fastrender.CacheWebsite.model.WebsiteData;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
 @Service
-@Scope(value = "prototype")
 public class CacheWebsiteService {
-
-    @Autowired
-    private SeleniumService seleniumService;
-
     @Autowired
     private CacheService cacheService;
 
-    private WebDriver driver;
+    @Autowired
+    private ChromeDriverPool chromeDriverPool;
 
     private String getDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -45,37 +34,23 @@ public class CacheWebsiteService {
             long endTime = System.nanoTime();
             long durationInNano = endTime - startTime;
             long durationInMillis = durationInNano / 1_000_000;
-            System.out.println("Execution time in milliseconds: " + durationInMillis);
+            System.out.println("Execution time in milliseconds: " + durationInMillis + " "+websiteData.getUrl());
         } catch (Exception exception) {
-            if (null != driver) {
-                seleniumService.killWebDriver();
-            }
             throw new RuntimeException("ERROR " + exception.getMessage() + exception.getStackTrace());
-
-        } finally {
-            if (null != driver) {
-                seleniumService.killWebDriver();
-            }
         }
     }
 
-    public String getPageSource(String websiteUrl) throws MalformedURLException {
+    public String getPageSource(String websiteUrl) throws InterruptedException {
+        ChromeDriver chromeDriver = chromeDriverPool.acquireDriver();
         try {
-            driver = seleniumService.getWebDriver();
-            driver.get(websiteUrl);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
-            return driver.getPageSource();
+            String pageSource =  chromeDriver
+                    .navigateToUrl(websiteUrl)
+                    .getPageSource();
+            chromeDriverPool.releaseDriver(chromeDriver);
+            return pageSource;
         } catch (Exception exception) {
-            if (null != driver) {
-                seleniumService.killWebDriver();
-            }
+            chromeDriverPool.releaseDriver(chromeDriver);
             throw new RuntimeException("ERROR " + exception.getMessage() + exception.getStackTrace());
-
-        } finally {
-            if (null != driver) {
-                seleniumService.killWebDriver();
-            }
         }
     }
 
@@ -86,4 +61,3 @@ public class CacheWebsiteService {
         cacheService.saveToDb("100", websiteDomain, websiteUrl, cacheDataModel);
     }
 }
-

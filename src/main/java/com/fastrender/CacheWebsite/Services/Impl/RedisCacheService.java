@@ -22,7 +22,6 @@ public class RedisCacheService implements CacheService {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
-
     @Override
     public <T> void saveToDb(String expirationTime, String websiteDomain, String websiteUrl, T data) {
         hashOperations.put(websiteDomain, websiteUrl, (CacheDataModel) data);
