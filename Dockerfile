@@ -56,8 +56,7 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.264
     rm /tmp/chromedriver.zip
 
 # Set permissions for ChromeDriver
-RUN chmod +x /usr/local/bin/chromedriver && \
-    ln -s /usr/local/bin/chromedriver /usr/bin/chromedriver
+RUN chmod +x /usr/local/bin/chromedriver
 
 # Create directories for the application and logs
 RUN mkdir -p /app /var/log
