@@ -4,16 +4,19 @@
 #java -jar /app/selenium-server.jar hub &
 
 # Wait for Selenium Hub to start
-sleep 15
+#sleep 15
 
 # Start Selenium Node (Chrome) and register it with the Hub
 #java -jar /app/selenium-server.jar node \
 #  --hub http://localhost:4444 \
 #  --detect-drivers true \
 #  --register-cycle 0 &
+cd /usr/local/bin
+./chromedriver --port=9200 &
+CHROMEDRIVER_PID=$!
 
 # Wait for the Node to register
-sleep 20000
+#sleep 20000
 
 # Start the Spring Boot application
 java -jar /app/app.jar
