@@ -12,15 +12,15 @@
 #  --detect-drivers true \
 #  --register-cycle 0 &
 
-cd /usr/local/bin
-./chromedriver --port=9200
-
 #cd /usr/local/bin
-#./chromedriver --port=9200 &
-#CHROMEDRIVER_PID=$!
+#./chromedriver --port=9200
+
+cd /usr/local/bin
+./chromedriver --port=9200 --verbose --log-path=/var/log/chromedriver.log &
+CHROMEDRIVER_PID=$!
 
 # Wait for the Node to register
 sleep 200000
 
 # Start the Spring Boot application
-#java -jar /app/app.jar
+java -jar /app/app.jar
