@@ -4,12 +4,14 @@ import com.fastrender.CacheWebsite.Services.Impl.ChromeDriver;
 import com.fastrender.CacheWebsite.model.CacheDataModel;
 import com.fastrender.CacheWebsite.model.WebsiteData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
+@Scope(value = "prototype")
 public class CacheWebsiteService {
     @Autowired
     private CacheService cacheService;
