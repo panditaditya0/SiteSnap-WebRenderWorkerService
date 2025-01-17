@@ -12,4 +12,5 @@ import java.io.Serializable;
 public class CacheDataModel implements Serializable {
     private String lastModified;
     private String pageSource;
+    private String screenShotBase64;
 }
