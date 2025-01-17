@@ -64,9 +64,9 @@ public class ChromeDriver implements BrowserDriver {
 
                 JsonObject chromeOptions = new JsonObject();
                 JsonArray args = new JsonArray();
-//            args.add("--headless");
-//            args.add("--disable-gpu");
-//            args.add("--no-sandbox");
+                args.add("--headless");
+                args.add("--disable-gpu");
+                args.add("--no-sandbox");
                 args.add("--disable-dev-shm-usage");
                 args.add("--user-data-dir=/tmp/session" + UUID.randomUUID());
 //                args.add("--remote-debugging-port=9222");
