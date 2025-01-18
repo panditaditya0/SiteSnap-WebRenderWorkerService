@@ -27,6 +27,9 @@ public class ChromeDriver implements BrowserDriver {
     @Value("${chrome.driver.url}")
     private String CHROME_DRIVER_URL;
 
+    @Value("${render.image}")
+    private boolean renderImage;
+
     public String sessionId;
     private Logger logger = LoggerFactory.getLogger(ChromeDriver.class);
 
@@ -71,7 +74,9 @@ public class ChromeDriver implements BrowserDriver {
                 args.add("--user-data-dir=/tmp/session" + UUID.randomUUID());
 //                args.add("--remote-debugging-port=9222");
                 chromeOptions.add("args", args);
-                chromeOptions.getAsJsonArray("args").add("--blink-settings=imagesEnabled=false");
+                if (renderImage) {
+                    chromeOptions.getAsJsonArray("args").add("--blink-settings=imagesEnabled=false");
+                }
 
                 alwaysMatch.add("goog:chromeOptions", chromeOptions);
                 capabilities.add("capabilities", new JsonObject());
