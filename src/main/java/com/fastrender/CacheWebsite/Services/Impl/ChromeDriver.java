@@ -37,7 +37,7 @@ public class ChromeDriver implements BrowserDriver {
         String screenshotUrl = CHROME_DRIVER_URL + "/session/" + sessionId + "/screenshot";
         String screenShotResponse = this.sendApi(screenshotUrl, "GET", null);
         JsonObject screenShotResponseJson = JsonParser.parseString(screenShotResponse).getAsJsonObject();
-        return screenShotResponseJson.getAsJsonObject("value").getAsString().replaceAll("\"","");
+        return screenShotResponseJson.get("value").getAsString().replaceAll("\"","");
     }
 
     private String readResponse(CloseableHttpResponse response) throws Exception {
@@ -87,7 +87,7 @@ public class ChromeDriver implements BrowserDriver {
 
                 try (CloseableHttpResponse response = client.execute(post)) {
                     String jsonResponse = readResponse(response);
-                    logger.info(jsonResponse);
+//                    logger.info(jsonResponse);
 
                     JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();
                     this.sessionId = json.getAsJsonObject("value").get("sessionId").getAsString();
@@ -183,14 +183,14 @@ public class ChromeDriver implements BrowserDriver {
                 case "GET":
                     HttpGet get = new HttpGet(url);
                     String a =  EntityUtils.toString(client.execute(get).getEntity());
-                    logger.info(a);
+//                    logger.info(a);
 
                     return EntityUtils.toString(client.execute(get).getEntity());
 
                 case "DELETE":
                     HttpDelete delete = new HttpDelete(url);
                     String a2 =  EntityUtils.toString(client.execute(delete).getEntity());
-                    logger.info(a2);
+//                    logger.info(a2);
                     return a2;
                 default:
                     throw new RuntimeException();
