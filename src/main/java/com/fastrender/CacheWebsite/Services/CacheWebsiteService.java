@@ -101,8 +101,8 @@ public class CacheWebsiteService {
             });
             chromeDriver.deleteSession();
         } catch (Exception exception) {
-            chromeDriver.deleteSession();
             logger.error("ERROR " + exception.getMessage() + exception.getStackTrace());
+            chromeDriver.deleteSession();
             throw new RuntimeException("ERROR " + exception.getMessage() + exception.getStackTrace());
         }
     }

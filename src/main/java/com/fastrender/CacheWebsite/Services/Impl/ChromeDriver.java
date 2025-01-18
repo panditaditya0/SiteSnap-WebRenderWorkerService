@@ -87,6 +87,8 @@ public class ChromeDriver implements BrowserDriver {
 
                 try (CloseableHttpResponse response = client.execute(post)) {
                     String jsonResponse = readResponse(response);
+                    logger.info(jsonResponse);
+
                     JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();
                     this.sessionId = json.getAsJsonObject("value").get("sessionId").getAsString();
                     System.out.println(this.sessionId);
@@ -180,11 +182,16 @@ public class ChromeDriver implements BrowserDriver {
 
                 case "GET":
                     HttpGet get = new HttpGet(url);
+                    String a =  EntityUtils.toString(client.execute(get).getEntity());
+                    logger.info(a);
+
                     return EntityUtils.toString(client.execute(get).getEntity());
 
                 case "DELETE":
                     HttpDelete delete = new HttpDelete(url);
-                    return EntityUtils.toString(client.execute(delete).getEntity());
+                    String a2 =  EntityUtils.toString(client.execute(delete).getEntity());
+                    logger.info(a2);
+                    return a2;
                 default:
                     throw new RuntimeException();
             }
