@@ -57,3 +57,4 @@ The primary purpose of this system is to cache websites efficiently and serve th
 
 9. **Monitoring and Logging Systems:**
     - Integrated dashboards for real-time monitoring and log management:
+# SyncDashboard
